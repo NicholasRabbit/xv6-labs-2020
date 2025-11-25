@@ -7,7 +7,9 @@ int main(int argc, char *argv[])
 	int fds[2];
 	int fds_b[2];
 	char buff[2];
-	
+
+	// Note that a pair of pipes should be called outside the following
+	// "if...else" because they are shared by a child process and its parent. 
 	pipe(fds);
 	pipe(fds_b);
 
