@@ -3,7 +3,7 @@
 #include "user/user.h"
 #include "kernel/fs.h"
 
-int find(char *path, char *name)
+int find(char *path, char *file_name)
 {
 	char buf[512], *p;
 	int fd;
@@ -12,6 +12,7 @@ int find(char *path, char *name)
 	
 	// Open the current directory and get its file descriptor.
 	fd = open(path, 0);
+
 
 	/*
 	 * "fstat" is a system call populating infomation about an open
@@ -24,14 +25,25 @@ int find(char *path, char *name)
 	*p++ = '/'; 
 
 	while(read(fd, &de, sizeof(de)) == sizeof(de)) {
+
 		if ((de.inum) == 0)
 			continue;
 		// Concact the name of a file to the address of "p".
 		memmove(p, de.name, DIRSIZ);
 		p[DIRSIZ] = 0; // Add 0(NULL) to indicate the end of a string.
+		stat(buf, &st);
 		// Note that the return value is NOT 0 when two strings are NOT equal.
-		if(!strcmp(name, p))
-			printf("%s\n", p);
+		// And we only need to find files.
+		if(st.type == T_FILE && !strcmp(file_name, p)) {
+			printf("%s\n", buf);
+		}
+
+		// Recursive directories, but not "." or "..".
+		if(st.type == T_DIR && strcmp(".", p) && strcmp("..", p)) {
+			find(buf, file_name);
+		}
+
+
 		
 	
 	}
@@ -46,16 +58,16 @@ int find(char *path, char *name)
 
 int main(int argc, char *argv[])
 {
-	if (argc < 2) {
-		fprintf(2, "find: without the name of file.");
+	if (argc < 3) {
+		fprintf(2, "find: without the name of a file.");
 		exit(2);
 	}
-	if (argc > 2) {
-		fprintf(2, "find: No more than two arguments, please");
+	if (argc > 3) {
+		fprintf(2, "find . file_name : No more than two arguments, please");
 	}
 
 	// For now, we find current directory by default. 
-	find(".", argv[1]);
+	find(argv[1], argv[2]);
 
 
 	return 0;
