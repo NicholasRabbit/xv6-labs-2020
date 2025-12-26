@@ -10,16 +10,20 @@ int find(char *path, char *file_name)
 	struct dirent de;
 	struct stat st;
 	
-	// Open the current directory and get its file descriptor.
+	// 1. Open the current directory and get its file descriptor.
 	fd = open(path, 0);
 
 
 	/*
-	 * "fstat" is a system call populating infomation about an open
+	 * 2. "fstat" is a system call populating infomation about an open
 	 * file into *st.
 	 */ 
 	fstat(fd, &st);
 	
+	/*
+	 * 3. Let "p" deference to the end of the full path: buf.
+	 * Then we can cancat the name of file to it. See 4.
+	 */
 	strcpy(buf, path);
 	p = buf + strlen(buf);
 	*p++ = '/'; 
@@ -28,17 +32,17 @@ int find(char *path, char *file_name)
 
 		if ((de.inum) == 0)
 			continue;
-		// Concact the name of a file to the address of "p".
+		// 4. Concact the name of a file to the address of "p".
 		memmove(p, de.name, DIRSIZ);
 		p[DIRSIZ] = 0; // Add 0(NULL) to indicate the end of a string.
 		stat(buf, &st);
-		// Note that the return value is NOT 0 when two strings are NOT equal.
-		// And we only need to find files.
+		// 5. Note that the return value of 'strcmp(...)' is NOT 0 when two strings are NOT equal.
+		// We need to find files with same type and name.
 		if(st.type == T_FILE && !strcmp(file_name, p)) {
 			printf("%s\n", buf);
 		}
 
-		// Recursive directories, but not "." or "..".
+		// 6. Recursive directories, but not "." or "..".
 		if(st.type == T_DIR && strcmp(".", p) && strcmp("..", p)) {
 			find(buf, file_name);
 		}
