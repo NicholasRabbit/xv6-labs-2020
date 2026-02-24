@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 			// If a child received "A" from its parent, it writes the "A" 
 			// into its file descriptor. Since the default output of a process 
 			// is a console, so the "A" will be printed on the CLI.
-			//write(1, buff, 1); // To test.
+			//write(1, buff, 1); // To test if the 'A' is output.
 
 			pid = getpid();
 			printf("%d: received ping\n", pid);
