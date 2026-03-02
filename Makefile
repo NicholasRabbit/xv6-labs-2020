@@ -155,6 +155,7 @@ UPROGS=\
 	$U/_copy\
 	$U/_exec\
 	$U/_forkexample\
+	$U/_xargs\
 
 
 ifeq ($(LAB),syscall)
