@@ -8,10 +8,11 @@
 int main(int argc, char *argv[])
 {
 	// 1. Create a child process in fork(). Then there are two process: the parent itself and 
-	// the child process created by this parent.
+	// the child process created by this parent after the "fork()" is called.
 	int pid = fork();
 
-	// 2. These two processes will simultaneously execute two branches of the following "if...else if...".
+	// 2. These two processes will simultaneously execute either of two branches 
+	// of the following "if...else if...".
 	if (pid > 0) {
 		printf("parent: child %d\n", pid);
 		// Note that "(int *) 0" is a pointer with the value of 0.

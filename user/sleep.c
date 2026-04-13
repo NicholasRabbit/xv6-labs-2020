@@ -5,7 +5,7 @@ int main(int argc, char* argv[])
 {
 	// Handling the error of illegal arguments
 	if (argc != 2) {
-		printf("Illegal arguments. It should be like: sleep 30\n");
+		printf("Illegal arguments. Only one number as the argument is allowed. As an illustration, sleep 30\n");
 		exit(-1);
 	}
 	
