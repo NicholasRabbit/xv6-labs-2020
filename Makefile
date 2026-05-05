@@ -156,6 +156,7 @@ UPROGS=\
 	$U/_exec\
 	$U/_forkexample\
 	$U/_xargs\
+	$U/_primes\
 
 
 ifeq ($(LAB),syscall)
