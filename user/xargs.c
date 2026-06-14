@@ -30,7 +30,6 @@ int main(int argc, char *argv[])
 	// Read from standard input, such as from  a pipeline in `echo hello | xargs echo bye`. 
 	// From the hints, we know that this progrm should read a character each time until
 	// it encounters '\n'.
-
 	char c;
 	int k = 0;
 	while (read(0, &c, sizeof c) > 0) {	// "read()" returns the length it reads from standard input, including the last '\0'.
